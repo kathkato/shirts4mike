@@ -1,18 +1,4 @@
 <?php
-function get_list_view_html($product) {
-    
-    $output = "";
-
-    $output = $output . "<li>";
-    $output = $output . '<a href="' . BASE_URL . 'shirts/' . $product["sku"] . '/">';
-    $output = $output . '<img src="' . BASE_URL . $product["img"] . '" alt="' . $product["name"] . '">';
-    $output = $output . "<p>View Details</p>";
-    $output = $output . "</a>";
-    $output = $output . "</li>";
-
-    return $output;
-}
-
 function get_products_recent() {
     $recent = array();
     $all = get_products_all();
@@ -34,11 +20,30 @@ function get_products_search($s){
     $all = get_products_all();
 
     foreach($all as $product){
+		if (stripos($product["name"],$s) !== false) {
             $results[] = $product;
+        }
     }
     return $results;
 }
 
+function get_products_count() {
+    return count(get_products_all());
+}
+
+function get_products_subset($positionStart, $positionEnd) {
+    $subset = array();
+    $all = get_products_all();
+
+    $position = 0;
+    foreach($all as $product) {
+        $position += 1;
+        if ($position >= $positionStart && $position <= $positionEnd) {
+            $subset[] = $product;
+        }
+    }
+    return $subset;
+}
 
 function get_products_all() {
     $products = array();
