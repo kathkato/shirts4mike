@@ -22,19 +22,23 @@ include(ROOT_PATH . "inc/header.php"); ?>
 	<h1>Search</h1>
     
     <form method="get" action="./">
-    	<input type="text" name="s">
+    	<input type="text" name="s" value="<?php echo htmlspecialchars($search_term); ?>">
     	<input type="submit" value="Go">
     </form>
 	
 	<?php
-    if($search_term !=""){
-		echo '<ul class = "$products">';
+    if($search_term !="") :
+	
+		if (!empty($products)) : ?>
+				<ul class="products">
+				<?php foreach ($products as $product) {
+					include(ROOT_PATH . "inc/partial-product-list-view.html.php"); }?>
+				</ul>
+				<?php else: ?>
+			<p>No products were found matching that search term.</p>
+		<?php endif; ?>
 		
-		foreach ($products as $product){
-			echo get_list_view_html($product);
-		}
-			echo '<ul>';
-	}?>
+	<?php endif; ?>
             
 </div></div>
 <?php include(ROOT_PATH . "inc/footer.php"); ?>
